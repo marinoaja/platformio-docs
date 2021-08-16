@@ -154,3 +154,77 @@ Frameworks
 
     * - :ref:`framework_espidf`
       - ESP-IDF is the official development framework for the ESP32 and ESP32-S Series SoCs.
+      
+      #define pintriger 14
+#define pinecho 27
+long duration, cm;
+long distance;
+
+#include <Arduino.h>
+#include <ESP32Servo.h>
+#define PIN_SERVO 13
+#define PIN_SERVO 25
+#define PIN_SERVO 26
+#define PIN_SERVO 16
+Servo myServo_1;
+Servo myServo_2;
+Servo myServo_3;
+Servo myServo_4;
+
+#define IN1 23
+#define IN2 17
+
+void setup () {
+   
+  Serial.begin (115200);
+  pinMode (pintriger, OUTPUT);
+  pinMode (pinecho, INPUT);
+  
+ pinMode(IN1, OUTPUT);
+ pinMode(IN2, OUTPUT);
+ 
+   myServo_1.attach(13);
+   myServo_2.attach(25);
+   myServo_3.attach(26);
+   myServo_4.attach(16);
+  
+ myServo_1.write(90);
+ myServo_2.write(90);
+ myServo_3.write(90);
+ myServo_4.write(90);
+ }
+
+void loop() 
+{
+  digitalWrite (pintriger, LOW);
+  delayMicroseconds (2);
+  digitalWrite (pintriger,HIGH);
+  delayMicroseconds (10);
+  digitalWrite (pintriger, LOW);
+  duration = pulseIn(pinecho, HIGH);
+  distance = (duration/2) / 29.1;
+   if (distance > 20)
+ {
+   digitalWrite(IN1,HIGH);
+   digitalWrite(IN2, LOW);
+   delay(500);
+   myServo_1.write (90);
+   delay(500);
+   myServo_3.write (180);
+   delay(500);
+   myServo_3.write (120);
+   delay(500);
+   myServo_4.write (100);
+   delay(500);
+
+ }
+ else 
+ {
+  if (distance < 20)
+   digitalWrite(IN1,LOW);
+   digitalWrite(IN2, HIGH);
+   delay(500);
+   }          
+}
+
+  
